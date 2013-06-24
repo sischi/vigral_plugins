@@ -56,24 +56,26 @@ public class Dijkstra extends AbstractAlgorithm {
 			
 			addStep();
 			
-			for(Edge e : mGraph.getOutEdges(u)) {
-				e.setState(ElementState.ACTIVE);
-				
-				Vertex v = e.getOtherEnd(u);
-				if(mQ.contains(v)) {
-					v.setState(ElementState.ACTIVE);
+			if(mGraph.getOutEdges(u) != null) {
+				for(Edge e : mGraph.getOutEdges(u)) {
+					e.setState(ElementState.ACTIVE);
 					
-					addStep();
-					
-					if(updateDistance(u, v, e.getWeight()))
+					Vertex v = e.getOtherEnd(u);
+					if(mQ.contains(v)) {
+						v.setState(ElementState.ACTIVE);
+						
 						addStep();
-					
-					v.setState(ElementState.UNVISITED);
+						
+						if(updateDistance(u, v, e.getWeight()))
+							addStep();
+						
+						v.setState(ElementState.UNVISITED);
+					}
+					else
+						addStep();
+						
+					e.setState(ElementState.UNVISITED);
 				}
-				else
-					addStep();
-					
-				e.setState(ElementState.UNVISITED);
 			}
 		}
 		
