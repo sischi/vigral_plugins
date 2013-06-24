@@ -9,7 +9,7 @@ public class Dings extends AbstractAlgorithm {
 
 	@Override
 	public String getAlgorithmName() {
-		return "Hodensack";
+		return "Dings";
 	}
 
 	@Override
