@@ -19,11 +19,11 @@ public class Dings extends AbstractAlgorithm {
 		req.add(new Pair<ElementType, String>(ElementType.EDGE, "Ecke 1"));
 		req.add(new Pair<ElementType, String>(ElementType.VERTEX, "Vertex von dems losgeht"));
 		req.add(new Pair<ElementType, String>(ElementType.OPTIONAL_EDGE, "Ecke über die es evtl gehen könnte"));
-		req.add(new Pair<ElementType, String>(ElementType.OPTIONAL_VERTEX, "Deine Mudda!"));
+		req.add(new Pair<ElementType, String>(ElementType.OPTIONAL_VERTEX, "eventueller weg"));
 		req.add(new Pair<ElementType, String>(ElementType.EDGE, "Ecke 1"));
 		req.add(new Pair<ElementType, String>(ElementType.VERTEX, "Vertex von dems losgeht"));
 		req.add(new Pair<ElementType, String>(ElementType.OPTIONAL_EDGE, "Ecke über die es evtl gehen könnte"));
-		req.add(new Pair<ElementType, String>(ElementType.OPTIONAL_VERTEX, "Deine Mudda!"));
+		req.add(new Pair<ElementType, String>(ElementType.OPTIONAL_VERTEX, "eventueller weg"));
 		
 		return req;
 	}
