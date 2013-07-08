@@ -17,7 +17,6 @@ public class Dijkstra extends AbstractAlgorithm {
 	private int mDestVertexID;
 
 	private ArrayList<Vertex> mQ = new ArrayList<Vertex>();
-	private Map<Vertex, String> mOriginVertexLabels = new HashMap<Vertex, String>();
 	private Map<Vertex, Pair<Vertex, Double>> mDistAndPrev = new HashMap<Vertex, Pair<Vertex, Double>>();
 	
 	@Override
@@ -47,14 +46,19 @@ public class Dijkstra extends AbstractAlgorithm {
 	@Override
 	public void perform() {
 		initialize();
+		addStep("Q = "+ printQueue());
 		
 		while(!mQ.isEmpty()) {
-			addStep();
-			
+						
 			Vertex u = extractMinDist();
 			u.setState(ElementState.VISITED);
 			
-			addStep();
+			if(u.getId() == mDestVertexID) {
+				addStep("remove Vertex '"+ u.getLabel() +"' from the Queue and mark it as 'VISITED'\nQ = "+ printQueue() +"\nThe Destination is reached");
+				break;
+			}
+			
+			addStep("remove Vertex '"+ u.getLabel() +"' from the Queue and mark it as 'VISITED'\nQ = "+ printQueue());
 			
 			if(mGraph.getOutEdges(u) != null) {
 				for(Edge e : mGraph.getOutEdges(u)) {
@@ -64,24 +68,25 @@ public class Dijkstra extends AbstractAlgorithm {
 					if(mQ.contains(v)) {
 						v.setState(ElementState.ACTIVE);
 						
-						addStep();
+						addStep(mDistAndPrev.get(u).getR() +" + "+ e.getWeight() +" < "+ mDistAndPrev.get(v).getR() +"?");
 						
 						if(updateDistance(u, v, e.getWeight()))
-							addStep();
+							addStep("YES. So update the distance and predecessor of Vertex '"+ v.getLabel() +"'");
+						else
+							addStep("NO. So leave everything as it is");
 						
 						v.setState(ElementState.UNVISITED);
 					}
 					else
-						addStep();
+						addStep("Vertex '"+ v.getLabel() +"' was already visited. So leave everything as it is");
 						
 					e.setState(ElementState.UNVISITED);
 				}
 			}
 		}
-		
-		addStep();
+
 		showShortestPath();
-		addStep();
+		addStep("show the shortest path");
 		
 		System.out.println("FINISHED!");
 	}
@@ -89,11 +94,9 @@ public class Dijkstra extends AbstractAlgorithm {
 	
 	private void initialize() {
 		mQ = new ArrayList<Vertex>();
-		mOriginVertexLabels = new HashMap<Vertex, String>();
 		mDistAndPrev = new HashMap<Vertex, Pair<Vertex, Double>>();
 		
 		for(Vertex v : mGraph.getVertices()) {
-			mOriginVertexLabels.put(v, v.getLabel());
 			if(v.getId() == mSrcVertexID)
 				mDistAndPrev.put(v, new Pair<Vertex, Double>(null, 0.0));
 			else
@@ -110,9 +113,9 @@ public class Dijkstra extends AbstractAlgorithm {
 		
 		Pair<Vertex, Double> pair = mDistAndPrev.get(v);
 		if(pair.getL() == null)
-			v.setLabel("<html>"+ mOriginVertexLabels.get(v) +"<br> -, "+ mDistAndPrev.get(v).getR() +"</html>");
+			v.setLabelAddition("-, "+ mDistAndPrev.get(v).getR());
 		else
-			v.setLabel("<html>"+ mOriginVertexLabels.get(v) +"<br>"+ mOriginVertexLabels.get(pair.getL()) +", "+ mDistAndPrev.get(v).getR() +"</html>");
+			v.setLabelAddition(pair.getL().getLabel() +", "+ mDistAndPrev.get(v).getR());
 	}
 	
 	
@@ -182,7 +185,7 @@ public class Dijkstra extends AbstractAlgorithm {
 	}
 	
 	
-	public Edge getRelevantEdge(Vertex start, Vertex end) {
+	private Edge getRelevantEdge(Vertex start, Vertex end) {
 		
 		ArrayList<Edge> allEdgesBetween = mGraph.getEdgesFromTo(start, end);
 		
@@ -197,6 +200,18 @@ public class Dijkstra extends AbstractAlgorithm {
 			}
 		}
 		return minDist;
+	}
+	
+	private String printQueue() {
+		String str = "";
+		
+		for(Vertex v : mQ) {
+			str += v.toString() +"("+ mDistAndPrev.get(v).getR() +"),  ";
+		}
+			
+		if(str.length() > 0)
+			str = str.substring(0, str.length()-3);
+		return str;
 	}
 	
 	
