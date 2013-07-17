@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 import de.chiller.vigral.algorithm.AbstractAlgorithm;
 import de.chiller.vigral.graph.ElementType;
+import de.chiller.vigral.graph.GraphElement;
 import de.chiller.vigral.util.Pair;
 
 
@@ -35,7 +36,7 @@ public class Dings extends AbstractAlgorithm {
 	}
 
 	@Override
-	public void setRequirements(ArrayList<Integer> arg0) {
+	public void setRequirements(ArrayList<GraphElement> requiredElements) {
 		System.out.println("Danke für die Angaben!!!");
 	}
 

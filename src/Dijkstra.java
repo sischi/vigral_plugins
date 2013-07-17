@@ -7,14 +7,15 @@ import de.chiller.vigral.algorithm.AbstractAlgorithm;
 import de.chiller.vigral.graph.Edge;
 import de.chiller.vigral.graph.ElementState;
 import de.chiller.vigral.graph.ElementType;
+import de.chiller.vigral.graph.GraphElement;
 import de.chiller.vigral.graph.Vertex;
 import de.chiller.vigral.util.Pair;
 
 
 public class Dijkstra extends AbstractAlgorithm {
 
-	private int mSrcVertexID;
-	private int mDestVertexID;
+	private Vertex mSrcVertex;
+	private Vertex mDestVertex;
 
 	private ArrayList<Vertex> mQ = new ArrayList<Vertex>();
 	private Map<Vertex, Pair<Vertex, Double>> mDistAndPrev = new HashMap<Vertex, Pair<Vertex, Double>>();
@@ -30,12 +31,12 @@ public class Dijkstra extends AbstractAlgorithm {
 	}
 
 	@Override
-	public void setRequirements(ArrayList<Integer> requiredIDs) {
-		mSrcVertexID = (int) requiredIDs.get(0);
-		mDestVertexID = (int) requiredIDs.get(1);
+	public void setRequirements(ArrayList<GraphElement> requiredElements) {
+		mSrcVertex = (Vertex) requiredElements.get(0);
+		mDestVertex = (Vertex) requiredElements.get(1);
 		
 		
-		System.out.println("start: "+ mSrcVertexID +", dest:"+ mDestVertexID);
+		System.out.println("start: "+ mSrcVertex.getLabel() +", dest:"+ mDestVertex.getLabel());
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class Dijkstra extends AbstractAlgorithm {
 			Vertex u = extractMinDist();
 			u.setState(ElementState.VISITED);
 			
-			if(u.getId() == mDestVertexID) {
+			if(u == mDestVertex) {
 				addStep("remove Vertex '"+ u.getLabel() +"' from the Queue and mark it as 'VISITED'\nQ = "+ printQueue() +"\nThe Destination is reached");
 				break;
 			}
@@ -97,7 +98,7 @@ public class Dijkstra extends AbstractAlgorithm {
 		mDistAndPrev = new HashMap<Vertex, Pair<Vertex, Double>>();
 		
 		for(Vertex v : mGraph.getVertices()) {
-			if(v.getId() == mSrcVertexID)
+			if(v == mSrcVertex)
 				mDistAndPrev.put(v, new Pair<Vertex, Double>(null, 0.0));
 			else
 				mDistAndPrev.put(v, new Pair<Vertex, Double>(null, Double.POSITIVE_INFINITY));
@@ -156,8 +157,8 @@ public class Dijkstra extends AbstractAlgorithm {
 		for(Edge e : mGraph.getEdges())
 			e.setState(ElementState.FINISHED_AND_NOT_RELEVANT);
 		
-		if(mDestVertexID != -1) {
-			Vertex v = mGraph.getVertexById(mDestVertexID);
+		if(mDestVertex != null) {
+			Vertex v = mDestVertex;
 			Vertex prev = mDistAndPrev.get(v).getL();
 			while(prev != null) {
 				v.setState(ElementState.FINISHED_AND_RELEVANT);
