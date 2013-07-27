@@ -34,9 +34,6 @@ public class Dijkstra extends AbstractAlgorithm {
 	public void setRequirements(ArrayList<GraphElement> requiredElements) {
 		mSrcVertex = (Vertex) requiredElements.get(0);
 		mDestVertex = (Vertex) requiredElements.get(1);
-		
-		
-		System.out.println("start: "+ mSrcVertex.getLabel() +", dest:"+ mDestVertex.getLabel());
 	}
 
 	@Override
