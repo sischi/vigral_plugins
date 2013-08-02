@@ -52,11 +52,11 @@ public class Dijkstra extends AbstractAlgorithm {
 			u.setState(ElementState.VISITED);
 			
 			if(u == mDestVertex) {
-				addStep("remove Vertex '"+ u.getLabel() +"' from the Queue and mark it as 'VISITED'\nQ = "+ printQueue() +"\nThe Destination is reached");
+				addStep("remove Vertex '"+ u +"' from the Queue and mark it as 'VISITED'\nQ = "+ printQueue() +"\nThe Destination is reached");
 				break;
 			}
 			
-			addStep("remove Vertex '"+ u.getLabel() +"' from the Queue and mark it as 'VISITED'\nQ = "+ printQueue());
+			addStep("remove Vertex '"+ u +"' from the Queue and mark it as 'VISITED'\nQ = "+ printQueue());
 			
 			if(mGraph.getOutEdges(u) != null) {
 				for(Edge e : mGraph.getOutEdges(u)) {
@@ -69,14 +69,14 @@ public class Dijkstra extends AbstractAlgorithm {
 						addStep(mDistAndPrev.get(u).getR() +" + "+ e.getWeight() +" < "+ mDistAndPrev.get(v).getR() +"?");
 						
 						if(updateDistance(u, v, e.getWeight()))
-							addStep("YES. So update the distance and predecessor of Vertex '"+ v.getLabel() +"'");
+							addStep("YES. So update the distance and predecessor of Vertex '"+ v +"'");
 						else
 							addStep("NO. So leave everything as it is");
 						
 						v.setState(ElementState.UNVISITED);
 					}
 					else
-						addStep("Vertex '"+ v.getLabel() +"' was already visited. So leave everything as it is");
+						addStep("Vertex '"+ v +"' was already visited. So leave everything as it is");
 						
 					e.setState(ElementState.UNVISITED);
 				}
@@ -204,7 +204,7 @@ public class Dijkstra extends AbstractAlgorithm {
 		String str = "";
 		
 		for(Vertex v : mQ) {
-			str += v.toString() +"("+ mDistAndPrev.get(v).getR() +"),  ";
+			str += v +"("+ mDistAndPrev.get(v).getR() +"),  ";
 		}
 			
 		if(str.length() > 0)
