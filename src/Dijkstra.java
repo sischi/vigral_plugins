@@ -23,7 +23,6 @@ public class Dijkstra extends AbstractAlgorithm {
 	@Override
 	public ArrayList<Pair<ElementType, String>> getRequirements() {
 		ArrayList<Pair<ElementType, String>> requires = new ArrayList<Pair<ElementType, String>>();
-		
 		requires.add(new Pair<ElementType, String>(ElementType.VERTEX, "Source Vertex"));
 		requires.add(new Pair<ElementType, String>(ElementType.OPTIONAL_VERTEX, "Destination Vertex"));
 		
@@ -86,7 +85,6 @@ public class Dijkstra extends AbstractAlgorithm {
 		showShortestPath();
 		addStep("show the shortest path");
 		
-		System.out.println("FINISHED!");
 	}
 	
 	
@@ -101,9 +99,7 @@ public class Dijkstra extends AbstractAlgorithm {
 				mDistAndPrev.put(v, new Pair<Vertex, Double>(null, Double.POSITIVE_INFINITY));
 			updateLabel(v);
 			mQ.add(v);
-			System.out.println(v.getLabel());
 		}
-		System.out.println(mQ);
 	}
 	
 	

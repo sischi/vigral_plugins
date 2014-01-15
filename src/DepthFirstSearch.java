@@ -43,6 +43,18 @@ public class DepthFirstSearch extends AbstractAlgorithm {
 
 	@Override
 	public void perform() {
+		
+		/*
+		 * error state
+		for(Edge e : mGraph.getEdges()) {
+			if(!e.isDirected()) {
+				addStep("this algorithm just works on directed graphs!");
+				return;
+			}
+		}
+		*/
+		
+		
 		for(Vertex v : mGraph.getVertices()) {
 			v.setState(ElementState.UNVISITED);
 		}
@@ -52,7 +64,7 @@ public class DepthFirstSearch extends AbstractAlgorithm {
 		dfb = new HashMap<Vertex, Integer>();
 		dfe = new HashMap<Vertex, Integer>();
 		mD = new ArrayList<Edge>();
-		System.out.println("starte tiefensuche mit Vertex "+ mStartVertex);
+		System.out.println("start depthfirstsearch with vertex "+ mStartVertex);
 		depthFirstSearch(mStartVertex);
 		addStep("red = Tree Edge\ngreen = Back Edge\nblue = Cross Edge\nyellow = Forward Edge");
 	}
