@@ -19,10 +19,8 @@ public class PushRelabel extends AbstractAlgorithm {
 	private Vertex mDestVertex;
 	
 	private Graph mResidualgraph;
-	private Graph mBackupGraph;
 	
 	private HashMap<Integer, Integer> mHeight = new HashMap<Integer, Integer>(); // for vertices
-	private HashMap<Integer, Double> mExcess = new HashMap<Integer, Double>(); // for vertices
 	private HashMap<Integer, Double> mFlow = new HashMap<Integer, Double>(); // for edges
 	private HashMap<Integer, Double> mRestCapacity = new HashMap<Integer, Double>(); // for edges
 	
@@ -91,9 +89,6 @@ public class PushRelabel extends AbstractAlgorithm {
 		
 		
 		// save snapshot of the graph an the resulting residual graph
-		// #############################################################
-		//addStep("after initializing");
-		//addResidualGraph("the resulting residual graph");
 		addStep(mGraph, mResidualgraph, "after initializing");
 		
 		// get first active node
@@ -105,8 +100,6 @@ public class PushRelabel extends AbstractAlgorithm {
 			activeNode.setState(ElementState.ACTIVE);
 			mGraph.getVertexById(activeNode.getId()).setState(ElementState.ACTIVE);
 			
-			// #############################################################
-			//addStep("choose Node "+ activeNode +" as active node, because:\nexcess("+ activeNode +") = "+ excess(activeNode) +" > 0");
 			addStep(mGraph, mResidualgraph, "choose Node "+ activeNode +" as active node, because:\nexcess("+ activeNode +") = "+ excess(activeNode) +" > 0");
 			
 			// search for an admissible edge
@@ -117,8 +110,6 @@ public class PushRelabel extends AbstractAlgorithm {
 				// change color of admissible edge in residual graph
 				admissibleEdge.setState(ElementState.ACTIVE);
 				
-				// #############################################################
-				//addResidualGraph("residual graph:\nchoose edge "+ admissibleEdge +" as admissible edge, because:\nheight("+ admissibleEdge.getStartVertex() +") = height("+ admissibleEdge.getEndVertex() +") + 1");
 				addStep(mGraph, mResidualgraph, "residual graph:\nchoose edge "+ admissibleEdge +" as admissible edge, because:\nheight("+ admissibleEdge.getStartVertex() +") = height("+ admissibleEdge.getEndVertex() +") + 1");
 				
 				// change color of admissible edge in result graph
@@ -135,26 +126,17 @@ public class PushRelabel extends AbstractAlgorithm {
 			}
 			// ... else ...
 			else {
-				
-				// #############################################################
-				//addResidualGraph("residual graph:\ncall relabel("+ activeNode +"):\nbecause Node "+ activeNode +" has no admissible edges");
 				addStep(mGraph, mResidualgraph, "residual graph:\ncall relabel("+ activeNode +"):\nbecause Node "+ activeNode +" has no admissible edges");
 				
 				// ... relabel
 				relabel(activeNode);
 				
 				updateResidualgraph();
-				
-				// #############################################################
-				//addResidualGraph("changed height of node "+ activeNode +" to minimum height of accessible nodes + 1 = "+ mHeight.get(activeNode.getId()));
 				addStep(mGraph, mResidualgraph, "changed height of node "+ activeNode +" to minimum height of accessible nodes + 1 = "+ mHeight.get(activeNode.getId()));
 			}
 			
 			// save snapshot of resulting graph
 			updateResidualgraph();
-			
-			// #############################################################
-			//addStep("the resulting graph");
 			addStep(mGraph, mResidualgraph, "the resulting graph");
 
 			// restore color of active node and admissible edge in resulting graph and residual graph
@@ -175,24 +157,12 @@ public class PushRelabel extends AbstractAlgorithm {
 			activeNode = getActiveNode();
 		}
 		
-		// save snapshot of resulting graph
-		// #############################################################
-		//addStep("The result, because there are no more active Nodes");
+		// save snapshot of resulting graphs
 		addStep(mGraph, mResidualgraph, "The result, because there are no more active Nodes");
 	}
 	
 	
 	
-	/**
-	 * saves a snapshot of the residual graph with an explanation
-	 * @param s
-	 */
-	private void addResidualGraph(String s) {
-		mBackupGraph = mGraph;
-		mGraph = mResidualgraph;
-		addStep(s);
-		mGraph = mBackupGraph;
-	}
 
 	
 	
@@ -342,9 +312,6 @@ public class PushRelabel extends AbstractAlgorithm {
 			
 			// save snapshot of residual graph
 			updateResidualgraph();
-			
-			// #############################################################
-			//addResidualGraph("adjust flow of edge "+ e +" to "+ oldflowE +" + min("+ oldExcess +", "+ restE +") = "+ flow);
 			addStep(mGraph, mResidualgraph, "adjust flow of edge "+ e +" to "+ oldflowE +" + min("+ oldExcess +", "+ restE +") = "+ flow);
 		}
 		
@@ -367,9 +334,6 @@ public class PushRelabel extends AbstractAlgorithm {
 			
 			// save snapshot of residual graph
 			updateResidualgraph();
-			
-			// #############################################################
-			//addResidualGraph("adjust flow of backedge "+ g +" to "+ oldflowG +" + min("+ oldExcess +", "+ oldflowE +") = "+ flow);
 			addStep(mGraph, mResidualgraph, "adjust flow of backedge "+ g +" to "+ oldflowG +" + min("+ oldExcess +", "+ oldflowE +") = "+ flow);
 		}
 	}
