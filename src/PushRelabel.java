@@ -236,10 +236,11 @@ public class PushRelabel extends AbstractAlgorithm {
 			mResidualgraph.addEdge(Edge.EdgeFactory.getInstance().create(endRest, startRest, true), endRest, startRest, EdgeType.DIRECTED);
 		}
 		
+		/*
 		for(Edge e : mResidualgraph.getEdges())
 			System.out.println(e);
 		
-		System.out.println(mGraph);
+		System.out.println(mGraph);*/
 	}
 	
 	
